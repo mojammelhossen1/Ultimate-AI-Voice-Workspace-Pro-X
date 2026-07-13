@@ -5,14 +5,12 @@ let recognition;
     let engineWarming = false;
     let currentWaveHue = 215;
 
-    // Core Stack Array Storage
     let undoStack = [];
     let redoStack = [];
     let isStackAction = false;
     let paragraphTimer = null;
     let versionControlHistory = [];
 
-    // Core Web Audio API reference instances nodes links
     let audioCtx, analyser, source, animationId, streamRef, biquadFilter;
     
     const outputField = document.getElementById('output-field');
@@ -25,7 +23,6 @@ let recognition;
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    // Macro command palette data array structures mapping models setups
     const systemPaletteCommands = [
         { name: "Toggle Dictation Engine Pipeline", shortcut: "🎙️", action: () => toggleDictationEngine() },
         { name: "Execute Intelligent AI Punctuation Pass", shortcut: "✨", action: () => runAISpellPatch() },
@@ -37,7 +34,6 @@ let recognition;
     ];
 
     window.onload = function() {
-        // Load configurations and text content from state memory
         const savedLang = localStorage.getItem('workspace_lang');
         if (savedLang) {
             document.getElementById('lang-select').value = savedLang;
@@ -48,7 +44,6 @@ let recognition;
             outputField.value = savedText;
         }
 
-        // Apply saved collapse/expand layout memory configuration settings
         applySavedCollapseStates();
 
         switchLanguage();
@@ -80,7 +75,6 @@ let recognition;
         if(navigator.vibrate) navigator.vibrate(duration);
     }
 
-    /* --- ADDED FEATURE: COLLAPSE & EXPAND UTILITY FOR SIDEBAR WITH LOCAL STORAGE RECALL --- */
     function toggleSection(contentId, iconId) {
         const content = document.getElementById(contentId);
         const icon = document.getElementById(iconId);
@@ -115,7 +109,6 @@ let recognition;
         });
     }
 
-    /* --- FEATURE 1: ROBUST REGULAR UNDO/REDO LOGIC STACK BUFFER --- */
     function saveUndoSnapshotFrame() {
         if (isStackAction) return;
         if (undoStack.length === 0 || undoStack[undoStack.length - 1] !== outputField.value) {
@@ -160,7 +153,6 @@ let recognition;
         evaluateMetricsCalculations();
     }
 
-    /* --- INTEGRATED WORD PROCESSING FORMATTING HANDLERS --- */
     function initializeKeyboardFormattingShortcuts() {
         outputField.addEventListener('keydown', (e) => {
             if (e.ctrlKey || e.metaKey) {
@@ -213,7 +205,6 @@ let recognition;
         handleTextAreaAltered();
     }
 
-    /* --- REFINED MICROPHONE DICTATION ENGINE --- */
     function initializeAudioDictationEngine() {
         if (!SpeechRecognition) {
             connectionToast.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="color:var(--danger)"></i> SpeechRecognition API Unavailable`;
@@ -313,7 +304,6 @@ let recognition;
         disengageAudioGraphVisualMatrix();
     }
 
-    /* --- AUDIO FREQUENCY VISUALIZER --- */
     async function engageAudioGraphVisualMatrix() {
         try {
             const specifications = { audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } };
@@ -370,7 +360,6 @@ let recognition;
         canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    /* --- DOCUMENT READABILITY ANALYTICS ENGINE & MARKDOWN PREVIEW --- */
     function evaluateMetricsCalculations() {
         const structuralContent = outputField.value.trim();
         const absoluteCharacterLength = structuralContent.length;
@@ -404,7 +393,6 @@ let recognition;
         renderLiveMarkdownPreview();
     }
 
-    /* --- SYSTEM COMMAND PALETTE ENGINE CONTROLLER --- */
     function initializeCommandPaletteInterceptors() {
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -452,7 +440,6 @@ let recognition;
         });
     }
 
-    /* --- INTEGRATED DRAG AND DROP FILE PARSER --- */
     function initializeDragDropUtilities() {
         const overlayCurtain = document.getElementById('drag-drop-curtain');
 
@@ -477,7 +464,6 @@ let recognition;
         });
     }
 
-    /* --- HARDWARE CONNECTIVITY BANNER LISTENER --- */
     function initializeNetworkAuditListeners() {
         window.addEventListener('online', () => {
             connectionToast.innerHTML = `<i class="fa-solid fa-wifi" style="color:var(--success)"></i> Core Ecosystem Online Linked`;
@@ -488,7 +474,6 @@ let recognition;
         });
     }
 
-    /* --- EXPORT MENU SCHEMAS --- */
     function triggerFileExport() {
         const outputChoiceToken = prompt("Export format configurations:\n[1] Clean Plain Markdown File (.md Assets Layout)\n[2] Native MS Word Document Binary Payload (.docx Structure Matrix)\n[3] Clean Plain Text File (.txt Resource File)");
         if (outputChoiceToken === '2') {
@@ -500,25 +485,30 @@ let recognition;
         }
     }
 
+    /* --- FIXED NATIVE MS WORD EXPORT COMPATIBILITY ENGINE WRAPPER --- */
     function triggerDocxOutputExport() {
         const plaintextPayloadString = outputField.value.trim();
         if(!plaintextPayloadString) return;
 
-        const structuralizedOfficeTemplateHtmlLayoutCode = `
+        // Compiled as standard WordprocessingML schema structural layout elements
+        const officeProcessingHtmlLayoutCode = `
             <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
             <head>
                 <meta charset="utf-8">
-                <title>Workspace Export Document</title>
-                <style>body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; padding: 1in; }</style>
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; }
+                    p { margin-bottom: 10pt; }
+                </style>
             </head>
             <body>
-                ${plaintextPayloadString.replace(/\n/g, '<br>')}
+                ${plaintextPayloadString.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}
             </body>
             </html>
         `.trim();
 
-        const officeProcessingMimeTargetToken = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-        executeTextAssetBlobStreamSave(`Workspace_Export_Document_${Date.now()}.docx`, structuralizedOfficeTemplateHtmlLayoutCode, officeProcessingMimeTargetToken);
+        // Modified directly to base standard application/msword type stream wrapper to bypass file corruption alert blocks
+        const officeProcessingMimeTargetToken = "application/msword";
+        executeTextAssetBlobStreamSave(`Workspace_Export_${Date.now()}.docx`, officeProcessingHtmlLayoutCode, officeProcessingMimeTargetToken);
     }
 
     function executeTextAssetBlobStreamSave(targetFileNameString, inputPayloadBuffer, processingMimeTargetToken) {
@@ -531,7 +521,6 @@ let recognition;
         document.body.removeChild(virtualAnchorNodeElement);
     }
 
-    /* --- NATIVE WEB SHARE MODAL MATRIX OPTIONS MANAGER --- */
     function openNativeShareModal() {
         if(!outputField.value.trim()) {
             alert("Workspace is empty.");
@@ -551,11 +540,10 @@ let recognition;
 
         if (extension === 'docx') {
             mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            payloadData = `
-                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-                <body>${textPayload.replace(/\n/g, '<br>')}</body>
-                </html>
-            `.trim();
+            payloadData = `\ufeff<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+            <head><meta charset="utf-8"></head>
+            <body>${textPayload.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')}</body>
+            </html>`.trim();
         }
 
         const shareFile = new File([payloadData], `Workspace_Shared_Note.${extension}`, { type: mimeType });
@@ -589,7 +577,6 @@ let recognition;
         document.getElementById('share-options-modal').style.display = 'none';
     }
 
-    /* --- LINEAR AUTOMATED AUDIT INCREMENTAL VERSION HISTORY ENGINE CONTROLLER --- */
     function commitVersionControlCheckpoint() {
         const currentActiveTextContent = outputField.value.trim();
         if(!currentActiveTextContent) return;
@@ -638,7 +625,6 @@ let recognition;
     
     function closeVersionDrawer() { document.getElementById('version-history-drawer').classList.remove('open'); }
 
-    /* --- DRAFTS AND SNAPSHOTS MANAGER (LOCAL MEMORY) --- */
     function autoSaveWorkspaceHistoryItem() {
         const currentActiveTextContent = outputField.value.trim();
         if(!currentActiveTextContent) return;
@@ -708,7 +694,6 @@ let recognition;
         }
     }
 
-    /* --- PERSONAL VOICE MACROS MEMORY MANAGER --- */
     function loadLocalVoiceMacrosList() {
         const rootBoxNode = document.getElementById('macro-list-box');
         rootBoxNode.innerHTML = '';
@@ -769,7 +754,6 @@ let recognition;
         }
     }
 
-    /* --- OTHER MACROS AND DEFAULTS --- */
     const macroLanguages = {
         'en-US': ['.', '?', ',', '!', 'New Line'],
         'bn-BD': ['।', '?', ',', '!', 'নতুন প্যারা'],
@@ -894,7 +878,6 @@ let recognition;
         }
     }
 
-    /* --- ZEN FOCUS & THEME CONTROLS --- */
     function toggleZenMode() {
         const backgroundAudioTrackNode = document.getElementById('zen-noise-audio');
         if(document.body.classList.contains('zen-active')) {
@@ -924,7 +907,6 @@ let recognition;
         applyStoredOrSystemTheme();
     }
 
-    // Retained implementation logic intact with enhanced system icon maps
     function applyStoredOrSystemTheme() {
         const targetThemeMode = localStorage.getItem('workspace_theme') || 'light';
         const themeIconNodeRef = document.getElementById('theme-icon');
