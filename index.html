@@ -147,7 +147,6 @@
         <p style="font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Select your preferred workspace delivery asset framework:</p>
         <div class="modal-share-options">
             <button class="btn-modal" onclick="triggerShareAssetFile('txt')"><i class="fa-solid fa-file-lines"></i> Share as Plain .TXT file</button>
-            <button class="btn-modal" onclick="triggerShareAssetFile('docx')"><i class="fa-solid fa-file-word"></i> Share as Microsoft Word .DOCX file</button>
             <button class="btn-modal" onclick="triggerShareAssetPage()"><i class="fa-solid fa-laptop-code"></i> Share Current Workspace Page View</button>
         </div>
         <button class="btn-tool" style="margin-top:15px; width:100%; justify-content:center;" onclick="document.getElementById('share-options-modal').style.display='none'">Cancel</button>
@@ -166,7 +165,6 @@
     <input type="text" class="cmd-input" id="cmd-search-field" placeholder="Type a workflow action or system operation command..." oninput="filterPaletteCommands()">
     <ul class="cmd-results" id="cmd-results-root"></ul>
 </div>
-
 <script src="app.js"></script>
 
 </body>
