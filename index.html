@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate AI Voice Workspace Pro X</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<button class="zen-escape" onclick="exitZenMode()"><i class="fa-solid fa-xmark"></i> Exit Zen Focus (Esc)</button>
+
+<audio id="zen-noise-audio" loop src="https://assets.mixkit.co/active_storage/sfx/2433/2433-84.wav"></audio>
+
+<div class="workspace">
+    <div class="sidebar">
+        <div class="sidebar-section compact">
+            <h1><i class="fa-solid fa-brain"></i> Control Hub</h1>
+            <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 10px;">Press <kbd>Ctrl + K</kbd> for Command Palette</p>
+        </div>
+
+        <div class="sidebar-section compact">
+            <h3 class="collapsible-trigger" onclick="toggleSection('lang-font-content', 'lang-font-icon')">
+                <span><i class="fa-solid fa-language"></i> Language & Font</span>
+                <i class="fa-solid fa-chevron-up" id="lang-font-icon"></i>
+            </h3>
+            <div id="lang-font-content" class="collapsible-content">
+                <select id="lang-select" onchange="switchLanguage()">
+                    <option value="en-US" data-placeholder="Spoken words will transcribe here in real-time..." data-font="system-ui">English (United States)</option>
+                    <option value="bn-BD" data-placeholder="আপনার কথা এখানে লেখা আকারে দেখা যাবে..." data-font="sans-serif">Bengali (বাংলাদেশ)</option>
+                    <option value="hi-IN" data-placeholder="आपका भाषण यहाँ वास्तविक समय में दिखाई देगा..." data-font="sans-serif">Hindi (भारत)</option>
+                    <option value="es-ES" data-placeholder="El habla aparecerá aquí en tiempo real..." data-font="sans-serif">Spanish (España)</option>
+                </select>
+                <select id="font-select" onchange="changeFontFamily()">
+                    <option value="system-ui">System Default UI</option>
+                    <option value="'Courier New', monospace">Monospace Tech</option>
+                    <option value="Georgia, serif">Editorial Classic Serif</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sidebar-section compact">
+            <h3 class="collapsible-trigger" onclick="toggleSection('intelligent-audio-content', 'intel-audio-icon')">
+                <span><i class="fa-solid fa-sliders"></i> Intelligent Audio</span>
+                <i class="fa-solid fa-chevron-up" id="intel-audio-icon"></i>
+            </h3>
+            <div id="intelligent-audio-content" class="collapsible-content">
+                <select id="noise-filter">
+                    <option value="on" selected>Active Software Noise Isolation Filters</option>
+                    <option value="off">Raw Direct Microphone Stream Data</option>
+                </select>
+                <select id="smart-formatting">
+                    <option value="on" selected>Auto-Paragraph On Conversational Pause</option>
+                    <option value="off">Continuous Line Blocks Tracking</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sidebar-section grow">
+            <h3><i class="fa-solid fa-folder-open"></i> Session Draft Snapshots</h3>
+            <ul class="history-list" id="history-box"></ul>
+        </div>
+        
+        <div class="sidebar-section grow">
+            <h3><i class="fa-solid fa-book-bookmark"></i> Personal Voice Macros</h3>
+            <div style="display:flex; gap:4px; margin-bottom: 6px;">
+                <input type="text" id="dict-input" placeholder="shortcut=Expansion Mapping" style="margin:0;">
+                <button class="btn-tool" onclick="addToDictionary()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <ul class="history-list" id="macro-list-box"></ul>
+        </div>
+    </div>
+
+    <div class="main-panel">
+        <div class="header">
+            <div id="connection-toast" style="font-size: 0.85rem; font-weight:600; color:var(--success);"><i class="fa-solid fa-circle-check"></i> System Operational Frame Engine</div>
+            <div class="header-actions">
+                <button class="btn-circle" onclick="toggleZenMode()" title="Toggle Focus Mode Soundscapes"><i class="fa-solid fa-eye"></i></button>
+                <button class="btn-circle" onclick="toggleSplitScreen()" title="Toggle Markdown Realtime Split-View"><i class="fa-solid fa-columns"></i></button>
+                <button class="btn-circle" onclick="openVersionDrawer()" title="View Version Control Incremental Audits"><i class="fa-solid fa-history"></i></button>
+                <button class="btn-circle" onclick="toggleTheme()" title="Cycle Framework Visual Skins"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
+            </div>
+        </div>
+
+        <div class="visualizer-card">
+            <canvas id="visualizer"></canvas>
+        </div>
+
+        <div class="editor-split" id="workspace-splitter">
+            <div class="panel-box" id="drop-target-area">
+                <div class="drag-overlay" id="drag-drop-curtain">Drop Document File Here to Parse Content</div>
+                <div class="toolbar">
+                    <div class="tool-group">
+                        <button class="btn-tool" onclick="modifyFontSize(2)"><i class="fa-solid fa-font"></i>+</button>
+                        <button class="btn-tool" onclick="modifyFontSize(-2)"><i class="fa-solid fa-font"></i>-</button>
+                        <button class="btn-tool" onclick="triggerUndo()" title="Undo Action Stack Frame"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                        <button class="btn-tool" onclick="triggerRedo()" title="Redo Action Stack Frame"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="btn-tool" onclick="applyWordFormatting('bold')" title="Bold text Selection"><i class="fa-solid fa-bold"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('italic')" title="Italic text Selection"><i class="fa-solid fa-italic"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('underline')" title="Underline text Selection"><i class="fa-solid fa-underline"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('strikethrough')" title="Strikethrough text Selection"><i class="fa-solid fa-strikethrough"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="btn-tool" onclick="applyWordFormatting('bullet')" title="Bulleted List"><i class="fa-solid fa-list-ul"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('number')" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('left')" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('center')" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('right')" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
+                        <button class="btn-tool" onclick="applyWordFormatting('justify')" title="Justify"><i class="fa-solid fa-align-justify"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="btn-tool" onclick="openFindReplace()"><i class="fa-solid fa-magnifying-glass"></i> Find/Replace</button>
+                        <button class="btn-tool" onclick="triggerTTS()"><i class="fa-solid fa-volume-high"></i> Read Text</button>
+                    </div>
+                    <div class="tool-group" id="metrics-panel" style="font-size:0.75rem; color:var(--text-sub); font-weight:600;">
+                        Words: 0 | Grade: Lvl 1 | Reading Time: 0m
+                    </div>
+                </div>
+
+                <div class="macro-pane" id="macro-bar"></div>
+
+                <div class="textarea-wrapper">
+                    <textarea id="output-field" placeholder="Awaiting operational initialization context sequence mapping..." oninput="handleTextAreaAltered()"></textarea>
+                </div>
+            </div>
+
+            <div class="panel-box preview-box" id="markdown-preview-pane"></div>
+        </div>
+
+        <div class="action-matrix">
+            <button id="master-mic-btn" class="btn-act b-mic" onclick="toggleDictationEngine()"><i class="fa-solid fa-microphone"></i> Start Dictation Engine</button>
+            <button class="btn-act b-ai" onclick="runAISpellPatch()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Parse Formatting</button>
+            <button class="btn-act b-copy" onclick="executeClipboardCopy()"><i class="fa-solid fa-paste"></i> Copy Buffer</button>
+            <button class="btn-act b-share" onclick="openNativeShareModal()"><i class="fa-solid fa-share-nodes"></i> Native Share</button>
+            <button class="btn-act b-dl" onclick="triggerFileExport()"><i class="fa-solid fa-file-arrow-down"></i> Export Menu</button>
+            <button class="btn-act b-clear" onclick="flushActiveWorkspace()"><i class="fa-solid fa-trash-can"></i> Flush Canvas</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="share-options-modal" onclick="closeNativeShareModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3><i class="fa-solid fa-share-nodes"></i> Native Share Options</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Select your preferred workspace delivery asset framework:</p>
+        <div class="modal-share-options">
+            <button class="btn-modal" onclick="triggerShareAssetFile('txt')"><i class="fa-solid fa-file-lines"></i> Share as Plain .TXT file</button>
+            <button class="btn-modal" onclick="triggerShareAssetFile('docx')"><i class="fa-solid fa-file-word"></i> Share as Microsoft Word .DOCX file</button>
+            <button class="btn-modal" onclick="triggerShareAssetPage()"><i class="fa-solid fa-laptop-code"></i> Share Current Workspace Page View</button>
+        </div>
+        <button class="btn-tool" style="margin-top:15px; width:100%; justify-content:center;" onclick="document.getElementById('share-options-modal').style.display='none'">Cancel</button>
+    </div>
+</div>
+
+<div class="drawer" id="version-history-drawer">
+    <div class="drawer-header">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Automated Version Backups</h3>
+        <button class="btn-circle" onclick="closeVersionDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="version-list-root" style="overflow-y:auto; flex-grow:1;"></div>
+</div>
+
+<div class="cmd-palette" id="global-command-palette">
+    <input type="text" class="cmd-input" id="cmd-search-field" placeholder="Type a workflow action or system operation command..." oninput="filterPaletteCommands()">
+    <ul class="cmd-results" id="cmd-results-root"></ul>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
