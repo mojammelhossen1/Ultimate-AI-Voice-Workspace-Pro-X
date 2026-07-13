@@ -14,6 +14,8 @@
             --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
             --radius: 24px;
             --glass-blur: blur(32px) saturate(140%);
+            --glass-btn-bg: rgba(255, 255, 255, 0.25);
+            --glass-btn-border: rgba(255, 255, 255, 0.4);
         }
 
         [data-theme="dark"] {
@@ -30,6 +32,8 @@
             --border: rgba(255, 255, 255, 0.07);
             --inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.2);
             --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.02);
+            --glass-btn-bg: rgba(15, 23, 42, 0.35);
+            --glass-btn-border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
@@ -37,7 +41,6 @@
         
         .workspace { display: grid; grid-template-columns: 340px 1fr; gap: 20px; width: 100%; max-width: 1440px; height: calc(100vh - 40px); }
         
-        /* Applied Liquid Glass properties across primary structural wrappers */
         .sidebar, .main-panel { 
             background: var(--panel-bg); 
             backdrop-filter: var(--glass-blur); 
@@ -56,7 +59,6 @@
         .sidebar-section.compact { flex-grow: 0; }
         .sidebar h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         
-        /* Collapsible additions */
         .sidebar h3.collapsible-trigger { cursor: pointer; user-select: none; }
         .sidebar h3.collapsible-trigger:hover { opacity: 0.8; }
         .collapsible-content { display: flex; flex-direction: column; }
@@ -79,15 +81,15 @@
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         h1 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--primary); }
         .header-actions { display: flex; gap: 8px; }
-        .btn-circle { background: rgba(0,0,0,0.04); border: 1px solid var(--border); wwidth: 36px; height: 36px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        
+        /* Fixed Action Icon Rounding & Width Parameter */
+        .btn-circle { background: rgba(0,0,0,0.04); border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
         [data-theme="dark"] .btn-circle { background: rgba(255,255,255,0.04); }
         .btn-circle:hover { transform: scale(1.05); background: var(--primary); color: white; border-color: transparent; }
 
-        /* Reactive Visualizer Area */
         .visualizer-card { width: 100%; height: 50px; background: rgba(0,0,0,0.02); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; position: relative; }
         #visualizer { width: 100%; height: 100%; display: block; }
         
-        /* Workspace Main Layout Block */
         .editor-split { display: grid; grid-template-columns: 1fr; flex-grow: 1; gap: 15px; overflow: hidden; border-radius: 12px; position: relative; }
         .editor-split.split-active { grid-template-columns: 1fr 1fr; }
         
@@ -106,23 +108,64 @@
         .textarea-wrapper { flex-grow: 1; position: relative; display: flex; }
         textarea { width: 100%; height: 100%; padding: 18px; border: none; background: transparent; color: var(--text-main); font-size: 18px; line-height: 1.6; resize: none; outline: none; }
         
-        /* Drag Overlay */
         .drag-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-glow); border: 3px dashed var(--primary); border-radius: 12px; display: none; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--primary); z-index: 10; pointer-events: none; backdrop-filter: blur(4px); }
         
-        /* Action Matrix Control Dashboard Grid */
+        /* Premium Liquid Glass Stylings Injected Onto Base Action Layout Matrix Row */
         .action-matrix { display: grid; grid-template-columns: 2fr repeat(5, 1fr); gap: 8px; margin-top: 12px; }
-        .btn-act { border: none; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .btn-act:hover { transform: translateY(-1px); filter: brightness(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+        .btn-act { 
+            border: 1px solid var(--glass-btn-border); 
+            background: linear-gradient(135deg, var(--glass-btn-bg), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 12px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         
-        .b-mic { background: var(--primary); }
-        .b-mic.recording { background: var(--danger); animation: pulse-glow 2s infinite; }
-        .b-copy { background: var(--success); }
-        .b-share { background: #0288d1; }
-        .b-dl { background: #f57c00; }
-        .b-clear { background: #616161; }
-        .b-ai { background: #7b1fa2; }
+        .btn-act::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.5s ease;
+        }
 
-        /* Command Palette UI Overlay Box */
+        .btn-act:hover::before { left: 100%; }
+
+        .btn-act:hover { 
+            transform: translateY(-2px); 
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-act:active { transform: translateY(0); box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+        
+        /* Base Palette Colors Overlaid Harmoniously Behind the Glass Layer Matrix */
+        .b-mic { color: var(--primary); border-color: rgba(37, 99, 235, 0.3); background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(255,255,255,0.05)); }
+        .b-mic.recording { color: #fff; background: var(--danger); border-color: transparent; animation: pulse-glow 2s infinite; }
+        .b-ai { color: #7b1fa2; border-color: rgba(123, 31, 162, 0.3); background: linear-gradient(135deg, rgba(123, 31, 162, 0.12), rgba(255,255,255,0.05)); }
+        .b-copy { color: var(--success); border-color: rgba(22, 163, 74, 0.3); background: linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(255,255,255,0.05)); }
+        .b-share { color: #0288d1; border-color: rgba(2, 136, 209, 0.3); background: linear-gradient(135deg, rgba(2, 136, 209, 0.12), rgba(255,255,255,0.05)); }
+        .b-dl { color: #f57c00; border-color: rgba(245, 124, 0, 0.3); background: linear-gradient(135deg, rgba(245, 124, 0, 0.12), rgba(255,255,255,0.05)); }
+        .b-clear { color: #616161; border-color: rgba(97, 97, 97, 0.3); background: linear-gradient(135deg, rgba(97, 97, 97, 0.12), rgba(255,255,255,0.05)); }
+
+        [data-theme="dark"] .b-mic { color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); }
+        [data-theme="dark"] .b-ai { color: #b388ff; border-color: rgba(179, 136, 255, 0.3); }
+        [data-theme="dark"] .b-copy { color: #4ade80; border-color: rgba(74, 222, 128, 0.3); }
+        [data-theme="dark"] .b-share { color: #29b6f6; border-color: rgba(41, 182, 246, 0.3); }
+        [data-theme="dark"] .b-dl { color: #ffb74d; border-color: rgba(255, 183, 77, 0.3); }
+        [data-theme="dark"] .b-clear { color: #cbd5e1; border-color: rgba(203, 213, 225, 0.3); }
+
         .cmd-palette { display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, 0); width: 100%; max-width: 500px; background: var(--panel-bg); border: 1px solid var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.3); border-radius: 12px; z-index: 3000; overflow: hidden; backdrop-filter: blur(20px); }
         .cmd-input { width: 100%; padding: 14px; font-size: 1rem; border: none; border-bottom: 1px solid var(--border); background: transparent; color: var(--text-main); outline: none; }
         .cmd-results { max-height: 250px; overflow-y: auto; list-style: none; }
@@ -130,19 +173,16 @@
         .cmd-item:hover, .cmd-item.selected { background: var(--primary); color: white; }
         .cmd-shortcut { font-size: 0.75rem; opacity: 0.6; background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 4px; }
 
-        /* Version History Drawer Overlay Panel */
         .drawer { position: fixed; top: 0; right: -350px; width: 320px; height: 100%; background: var(--panel-bg); border-left: 1px solid var(--border); box-shadow: -10px 0 30px rgba(0,0,0,0.1); z-index: 2500; transition: right 0.3s ease; padding: 20px; display: flex; flex-direction: column; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
         .drawer.open { right: 0; }
         .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 
-        /* Modals and Overlays setup */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 4000; }
         .modal-content { background: var(--panel-bg); border: 1px solid var(--border); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); padding: 25px; border-radius: 16px; width: 90%; max-width: 450px; text-align: center; color: var(--text-main); box-shadow: var(--shadow); }
         .modal-share-options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .btn-modal { padding: 10px; border: 1px solid var(--border); background: rgba(0,0,0,0.02); color: var(--text-main); border-radius: 8px; cursor: pointer; font-weight: 500; text-align: left; display: flex; align-items: center; gap: 10px; }
         .btn-modal:hover { background: var(--primary); color: white; }
         
-        /* Zen Focus Aesthetics Configurations */
         body.zen-active { background: #0b0f19 !important; }
         body.zen-active .workspace { grid-template-columns: 1fr; max-width: 850px; }
         body.zen-active .sidebar, body.zen-active .header, body.zen-active .visualizer-card, body.zen-active .toolbar, body.zen-active .macro-pane, body.zen-active .action-matrix, body.zen-active .preview-box { display: none !important; }
