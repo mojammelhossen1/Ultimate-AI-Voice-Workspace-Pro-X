@@ -1,3 +1,16 @@
+// 1. Service Worker Registration (PWA)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('Service Worker registered!');
+        })
+        .catch(error => {
+          console.log('Service Worker registration failed:', error);
+        });
+    });
+  }
+// 2. The rest of your existing app.js code starts down here...
 let recognition;
     let isRecording = false;
     let lastFinalTranscript = '';
